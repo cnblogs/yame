@@ -8,12 +8,14 @@
         "dev": "parcel ./demo/index.html -p 4200"
     },
     "dependencies": {
+        "codemirror": "^5.38.0",
         "jsx-dom": "^6.1.1",
         "markdownlint": "^0.10.0",
         "monaco-editor": "^0.13.1",
         "postcss-modules": "^1.1.0"
     },
     "devDependencies": {
+        "@types/codemirror": "^0.0.57",
         "babel-preset-env": "^1.7.0",
         "babel-preset-react": "^6.24.1",
         "cross-env": "^5.1.6",

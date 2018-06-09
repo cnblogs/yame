@@ -9,10 +9,15 @@
 </head>
 
 <body>
-    <script src="https://cdn.bootcss.com/webcomponentsjs/1.2.0/webcomponents-loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
     <script src="../src/yame.tsx"></script>
+    <script type="module">
+        WebComponents.waitFor(() => {
+            YameInit();
+        });
+    </script>
     <h1>Yet another markdown editor.</h1>
-    <yame></yame>
+    <ya-markdown></ya-markdown>
 </body>
 
 </html>

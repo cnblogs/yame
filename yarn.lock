@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/codemirror@^0.0.57":
+  version "0.0.57"
+  resolved "http://registry.npm.taobao.org/@types/codemirror/download/@types/codemirror-0.0.57.tgz#1b10e330be084e066772883fc3022aae22907cd4"
+
 abbrev@1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/abbrev/download/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -987,6 +991,10 @@ coa@~2.0.1:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
+
+codemirror@^5.38.0:
+  version "5.38.0"
+  resolved "http://registry.npm.taobao.org/codemirror/download/codemirror-5.38.0.tgz#26a9551446e51dbdde36aabe60f72469724fd332"
 
 collection-visit@^1.0.0:
   version "1.0.0"
