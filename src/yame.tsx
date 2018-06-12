@@ -2,12 +2,18 @@ import * as React from 'jsx-dom';
 
 import * as CodeMirror from 'codemirror';
 import 'codemirror/mode/markdown/markdown.js';
-import * as marked from 'marked';
+import 'codemirror/addon/lint/lint.js';
+import './mdlint';
+import * as mdit from 'markdown-it';
 import { debounceTime, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 
 import * as styleContent from './style.less';
 import * as cmScoped from './codemirror-scoped.less';
+
+const md = mdit({
+    html: true
+});
 
 class Yame extends HTMLElement {
     static TagName = 'ya-markdown';
@@ -36,7 +42,7 @@ class Yame extends HTMLElement {
         this.preview$ = this.$editorChanges.pipe(
             debounceTime(200),
             map(code => {
-                return marked(code);
+                return md.render(code);
             })
         );
     }
@@ -48,7 +54,7 @@ class Yame extends HTMLElement {
     }
 
     render() {
-        return <div class='ya-markdown'>
+        return <div class='ya-markdown host'>
             <div class='yame-container'>
                 <style>{cmScoped}</style>
                 <style>{styleContent}</style>
@@ -60,18 +66,6 @@ class Yame extends HTMLElement {
     }
 
     init() {
-        // setup marked
-        marked.setOptions({
-            renderer: new marked.Renderer(),
-            pedantic: false,
-            gfm: true,
-            tables: true,
-            breaks: true,
-            sanitize: false,
-            smartLists: true,
-            smartypants: false,
-            xhtml: false
-        });
         // attach shadow root
         this.attachShadow({ mode: 'open' });
         this.hostEl = this.shadowRoot.host as Yame;
@@ -81,7 +75,9 @@ class Yame extends HTMLElement {
         // create editor
         const editor = CodeMirror(this.editorHost, {
             lineNumbers: true,
-            mode: 'markdown'
+            mode: 'markdown',
+            lint: true,
+            gutters: ['CodeMirror-lint-markers'],
         });
         editor.on('change', e => {
             this.$editorChanges.next(e.getValue());

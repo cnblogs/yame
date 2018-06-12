@@ -5,6 +5,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = function (isProd) {
     const cfg = {
+        context,
         mode: 'production',
         entry: {
             index: './index.ts',
@@ -14,7 +15,7 @@ module.exports = function (isProd) {
             filename: 'yame-[name].min.js',
         },
         plugins: [
-            // new BundleAnalyzerPlugin()
+            new BundleAnalyzerPlugin()
         ],
         optimization: {
             splitChunks: {

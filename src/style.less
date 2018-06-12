@@ -20,29 +20,42 @@
 @themeLight: #c7e0f4;
 @themeLighter: #deecf9;
 @themeLighterAlt: #eff6fc;
-.ya-markdown {
-    height: 100%;
+.editor-style() {
     .CodeMirror {
+        height: 100%;
         font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace, -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
+    border: 1px solid @themePrimary;
+    width: 50%;
+    .editor-host {
+        height: 100%;
+    }
+}
+
+.preview-style() {
+    overflow: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border: 1px solid @themeSecondary;
+    width: 50%;
+    pre {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace, -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+}
+
+.ya-markdown.host {
+    height: 100%;
+}
+
+.ya-markdown {
     .yame-container {
         height: 100%;
         display: flex;
         flex-flow: row nowrap;
         .editor {
-            border: 1px solid @themePrimary;
-            width: 50%;
-            .editor-host {
-                height: 100%;
-            }
+            .editor-style();
         }
         .preview {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            border: 1px solid @themeSecondary;
-            width: 50%;
-            pre {
-                font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace, -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            }
+            .preview-style();
         }
     }
 }
