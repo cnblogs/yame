@@ -17,8 +17,6 @@ class Yame extends HTMLElement {
     $editorChanges = new Subject<string>();
     preview$: Observable<string>;
 
-    // input attributes
-    hljs: boolean;
 
     static register = () => {
         if (!window.customElements.get(Yame.TagName)) {
@@ -32,8 +30,6 @@ class Yame extends HTMLElement {
     }
 
     bindAttr() {
-        const inputHljs = this.getAttribute('hljs');
-        this.hljs = inputHljs === 'true';
     }
 
     applyRx() {
