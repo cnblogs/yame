@@ -1,6 +1,17 @@
 {
     "presets": [
-        "env",
-        "react"
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": [
+                        "chrome >= 49"
+                    ]
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        "syntax-dynamic-import"
     ]
 }

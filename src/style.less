@@ -1,4 +1,48 @@
-@black: #333333;
-.test {
-    color: @black;
+@black: #000000;
+@neutralDark: #212121;
+@neutralPrimary: #333333;
+@neutralPrimaryAlt: #3c3c3c;
+@neutralSecondary: #666666;
+@neutralTertiary: #a6a6a6;
+@neutralTertiaryAlt: #c8c8c8;
+@neutralQuaternary: #d0d0d0;
+@neutralQuaternaryAlt: #dadada;
+@neutralLight: #eaeaea;
+@neutralLighter: #f4f4f4;
+@neutralLighterAlt: #f8f8f8;
+@white: #ffffff;
+@themeDarker: #004578;
+@themeDark: #005a9e;
+@themeDarkAlt: #106ebe;
+@themePrimary: #0078d4;
+@themeSecondary: #2b88d8;
+@themeTertiary: #71afe5;
+@themeLight: #c7e0f4;
+@themeLighter: #deecf9;
+@themeLighterAlt: #eff6fc;
+.ya-markdown {
+    height: 100%;
+    .CodeMirror {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace, -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    .yame-container {
+        height: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        .editor {
+            border: 1px solid @themePrimary;
+            width: 50%;
+            .editor-host {
+                height: 100%;
+            }
+        }
+        .preview {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            border: 1px solid @themeSecondary;
+            width: 50%;
+            pre {
+                font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace, -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+        }
+    }
 }

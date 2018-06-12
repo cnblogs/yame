@@ -6,18 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Development</title>
+    <style>
+        .my-editor {
+            height: 400px;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@webcomponents/custom-elements@1.1.2/src/native-shim.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
-    <script src="../src/yame.tsx"></script>
-    <script type="module">
+    <script src="./yame-vendors.min.js"></script>
+    <script src="./yame-index.min.js"></script>
+    <script>
         WebComponents.waitFor(() => {
             YameInit();
         });
     </script>
     <h1>Yet another markdown editor.</h1>
-    <ya-markdown></ya-markdown>
+    <ya-markdown class="my-editor"></ya-markdown>
 </body>
 
 </html>

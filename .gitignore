@@ -68,3 +68,5 @@ typings/
 
 .cache/
 dist/
+dist/*.js
+dist/*.map
