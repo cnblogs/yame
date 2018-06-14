@@ -53,6 +53,17 @@ module.exports = function (isProd) {
                             loader: 'css-loader',
                             options: { minimize: isProd }
                         }]
+                },
+                {
+                    test: /\.(png|jpg|gif|svg)$/,
+                    use: [
+                        {
+                            loader: 'url-loader',
+                            options: {
+                                limit: 8192
+                            }
+                        }
+                    ]
                 }
             ]
         },

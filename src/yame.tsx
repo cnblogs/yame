@@ -11,6 +11,7 @@ import { Subject, Observable } from 'rxjs';
 
 import * as styleContent from './style.less';
 import * as cmScoped from './codemirror-scoped.less';
+import * as cmLint from './lint.less';
 
 const md = mdit({
     html: true
@@ -18,17 +19,25 @@ const md = mdit({
 
 class Yame extends HTMLElement {
     static TagName = 'ya-markdown';
+    static WithPolyfill = true;
     hostEl: Yame;
     editorHost: HTMLDivElement;
     previewHost: HTMLDivElement;
     $editorChanges = new Subject<string>();
     preview$: Observable<string>;
 
-
-    static register = () => {
-        if (!window.customElements.get(Yame.TagName)) {
-            window.customElements.define(Yame.TagName, Yame);
+    static checkPolyfill() {
+        if (window.customElements && window.customElements.define.toString().indexOf('native') >= 0) {
+            Yame.WithPolyfill = false;
         }
+    }
+    static register = () => {
+        Yame.checkPolyfill();
+        (window as any).WebComponents.waitFor(() => {
+            if (!window.customElements.get(Yame.TagName)) {
+                window.customElements.define(Yame.TagName, Yame);
+            }
+        });
     }
 
     constructor() {
@@ -55,10 +64,12 @@ class Yame extends HTMLElement {
     }
 
     render() {
+        console.log(Yame.WithPolyfill);
         return <div class='ya-markdown host'>
             <div class='yame-container'>
                 <style>{cmScoped}</style>
                 <style>{styleContent}</style>
+                {Yame.WithPolyfill ? null : <style>{cmLint}</style>}
                 <div class='editor'>
                     <div class='editor-host' ref={r => this.editorHost = r}></div>
                 </div>
@@ -85,7 +96,8 @@ class Yame extends HTMLElement {
         });
         this.applyRx();
         this.subscribe();
-        // 在 Chrome 中，必须手动调用这个函数，使得编辑器能够正确渲染
+        // insert CodeMirror lint css to document
+        document.head.appendChild(<style>{cmLint}</style>);
         editor.refresh();
     }
 }
