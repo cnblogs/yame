@@ -55,7 +55,7 @@ module.exports = function (isProd) {
                         }]
                 },
                 {
-                    test: /\.(png|jpg|gif|svg)$/,
+                    test: /\.(png|jpg|gif|svg|woff)$/,
                     use: [
                         {
                             loader: 'url-loader',
