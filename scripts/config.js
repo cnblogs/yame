@@ -1,7 +1,6 @@
 
 const { resolve, join } = require('path');
 const context = resolve(__dirname, '..');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = function (isProd) {
     const cfg = {
@@ -14,9 +13,6 @@ module.exports = function (isProd) {
             path: join(context, 'dist'),
             filename: 'yame-[name].min.js',
         },
-        plugins: [
-            new BundleAnalyzerPlugin()
-        ],
         optimization: {
             splitChunks: {
                 cacheGroups: {

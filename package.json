@@ -5,6 +5,7 @@
     "license": "MIT",
     "scripts": {
         "build": "webpack --config ./scripts/webpack.prod.js",
+        "analyze": "webpack --config ./scripts/webpack.analyze.js",
         "dev": "webpack-serve --config ./scripts/webpack.dev.js"
     },
     "dependencies": {
