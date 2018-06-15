@@ -89,7 +89,9 @@ class Yame extends HTMLElement {
         this.shadowRoot.appendChild(elms);
         // create editor
         const editor = HyperMD.fromTextArea(this.editorHost, {
-            lint: true,
+            lint: {
+                disableMdRules: ['MD002', 'MD033', 'MD041', 'MD013']
+            },
             mode: 'hypermd',
             gutters: ['CodeMirror-lint-markers'],
             hmdModeLoader: true,
@@ -102,7 +104,10 @@ class Yame extends HTMLElement {
         // insert CodeMirror lint css to document
         document.head.appendChild(<style>{cmLint}</style>);
         document.head.appendChild(<style>{yameFont}</style>);
-        editor.refresh();
+        setTimeout(() => {
+            // after modified styles, editor should be refreshed
+            editor.refresh();
+        }, 0);
     }
 }
 
