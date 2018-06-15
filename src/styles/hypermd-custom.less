@@ -1,0 +1,31 @@
+@import './mixins.less';
+@codeBlockBorder: #d3d6db;
+@codeBlockBg: #f9f9f9;
+// custom hypermd theme
+.CodeMirror.cm-s-hypermd-light {
+    pre {
+        &.HyperMD-codeblock {
+            background-color: @codeBlockBg;
+            border-left: 1 solid @codeBlockBorder;
+            border-right: 1 solid @codeBlockBorder;
+            line-height: 1.4em;
+            &.HyperMD-codeblock-begin,
+            &.HyperMD-codeblock-end {
+                border-top: 1px solid @codeBlockBorder;
+                border-bottom: 1px solid @codeBlockBorder;
+                line-height: 2em;
+                color: #707070;
+                font-size: .8rem;
+                border-radius: 0;
+            }
+        }
+    }
+    span.hmd-link-icon {
+        background: transparent;
+        height: initial;
+        transform: rotate(90deg);
+        transform-origin: center;
+        vertical-align: baseline;
+        .icon-link()
+    }
+}

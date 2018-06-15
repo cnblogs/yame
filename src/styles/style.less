@@ -20,6 +20,13 @@
 @themeLight: #c7e0f4;
 @themeLighter: #deecf9;
 @themeLighterAlt: #eff6fc;
+
+@import './mixins.less';
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    .yame-font();
+}
+
 .editor-style() {
     .CodeMirror {
         height: 100%;

@@ -1,7 +1,7 @@
 import * as React from 'jsx-dom';
 
+import * as HyperMD from 'hypermd';
 import * as CodeMirror from 'codemirror';
-import 'codemirror/mode/markdown/markdown.js';
 import 'codemirror/addon/lint/lint.js';
 import './mdlint';
 import * as mdit from 'markdown-it';
@@ -9,9 +9,12 @@ import { debounceTime, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 
 
-import * as styleContent from './style.less';
-import * as cmScoped from './codemirror-scoped.less';
-import * as cmLint from './lint.less';
+import * as styleContent from './styles/style.less';
+import * as cmScoped from './styles/codemirror-scoped.less';
+import * as cmLint from './styles/lint.less';
+import * as yameFont from './styles/yame-font.less';
+
+window['CodeMirror'] = CodeMirror;
 
 const md = mdit({
     html: true
@@ -21,7 +24,7 @@ class Yame extends HTMLElement {
     static TagName = 'ya-markdown';
     static WithPolyfill = true;
     hostEl: Yame;
-    editorHost: HTMLDivElement;
+    editorHost: HTMLTextAreaElement;
     previewHost: HTMLDivElement;
     $editorChanges = new Subject<string>();
     preview$: Observable<string>;
@@ -71,7 +74,7 @@ class Yame extends HTMLElement {
                 <style>{styleContent}</style>
                 {Yame.WithPolyfill ? null : <style>{cmLint}</style>}
                 <div class='editor'>
-                    <div class='editor-host' ref={r => this.editorHost = r}></div>
+                    <textarea class='editor-host' ref={r => this.editorHost = r}></textarea>
                 </div>
                 <div ref={r => this.previewHost = r} class='preview'></div></div>
         </div>;
@@ -85,11 +88,11 @@ class Yame extends HTMLElement {
         const elms = this.render();
         this.shadowRoot.appendChild(elms);
         // create editor
-        const editor = CodeMirror(this.editorHost, {
-            lineNumbers: true,
-            mode: 'markdown',
+        const editor = HyperMD.fromTextArea(this.editorHost, {
             lint: true,
+            mode: 'hypermd',
             gutters: ['CodeMirror-lint-markers'],
+            hmdModeLoader: true,
         });
         editor.on('change', e => {
             this.$editorChanges.next(e.getValue());
@@ -98,6 +101,7 @@ class Yame extends HTMLElement {
         this.subscribe();
         // insert CodeMirror lint css to document
         document.head.appendChild(<style>{cmLint}</style>);
+        document.head.appendChild(<style>{yameFont}</style>);
         editor.refresh();
     }
 }

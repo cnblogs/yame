@@ -11,12 +11,12 @@ module.exports = function (isProd) {
         },
         output: {
             path: join(context, 'dist'),
-            filename: 'yame-[name].min.js',
+            filename: 'yame-[name].min.js'
         },
         optimization: {
             splitChunks: {
                 cacheGroups: {
-                    commons: {
+                    vendors: {
                         test: /[\\/]node_modules[\\/]/,
                         name: "vendors",
                         chunks: "all"

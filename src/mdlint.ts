@@ -12,7 +12,7 @@ CodeMirror.registerHelper('lint', 'markdown', function (text, options) {
         const range = r.errorRange === null ? [0, 0] : r.errorRange;
         const from = CodeMirror.Pos(r.lineNumber - 1, range[0]);
         const to = CodeMirror.Pos(r.lineNumber - 1, range[1]);
-        const message = `${r.ruleNames[0]} ${r.ruleNames[1]}\n${r.ruleDescription}`;
+        const message = `[${r.ruleNames[0]}] ${r.ruleNames[1]}\n${r.ruleDescription}`;
         const severity = 'error';
         return { from, to, message, severity };
     });

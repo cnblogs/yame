@@ -1,9 +1,4 @@
-@font-face {
-    font-family: 'yame';
-    src: url('./yame.woff') format('woff')
-}
-
-.yame-font {
+.yame-font() {
     font-family: "yame";
     font-style: normal;
     font-weight: normal;
@@ -16,35 +11,12 @@
     /* For safety - reset parent styles, that can break glyph codes*/
     font-variant: normal;
     text-transform: none;
-    /* fix buttons height, for twitter bootstrap */
-    line-height: 1em;
     /* Animation center compensation - margins should be symmetric */
     /* remove if not needed */
     margin-left: .2em;
 }
 
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
-    font-family: "yame";
-    font-style: normal;
-    font-weight: normal;
-    display: inline-block;
-    text-decoration: inherit;
-    width: 1em;
-    margin-right: .2em;
-    text-align: center;
-    /* opacity: .8; */
-    /* For safety - reset parent styles, that can break glyph codes*/
-    font-variant: normal;
-    text-transform: none;
-    /* fix buttons height, for twitter bootstrap */
-    line-height: 1em;
-    /* Animation center compensation - margins should be symmetric */
-    /* remove if not needed */
-    margin-left: .2em;
-}
-
-.icon-cancel-circled {
+.icon-cancel-circled() {
     &:before {
         .yame-font();
         content: '\e800';
@@ -53,14 +25,16 @@
 
 /* '' */
 
-.icon-bold:before {
-    .yame-font();
-    content: '\e801';
+.icon-bold() {
+    &:before {
+        .yame-font();
+        content: '\e801';
+    }
 }
 
 /* '' */
 
-.icon-italic {
+.icon-italic() {
     &:before {
         .yame-font();
         content: '\e802';
@@ -69,25 +43,32 @@
 
 /* '' */
 
-.icon-link:before {
-    content: '\e803';
+.icon-link() {
+    &:before {
+        .yame-font();
+        content: '\e803';
+    }
 }
 
 /* '' */
 
-.icon-picture:before {
-    content: '\e804';
+.icon-picture() {
+    &:before {
+        content: '\e804';
+    }
 }
 
 /* '' */
 
-.icon-check:before {
-    content: '\e805';
+.icon-check() {
+    &:before {
+        content: '\e805';
+    }
 }
 
 /* '' */
 
-.icon-cog {
+.icon-cog() {
     &:before {
         content: '\e806';
     }
@@ -95,7 +76,7 @@
 
 /* '' */
 
-.icon-help-circled {
+.icon-help-circled() {
     &:before {
         content: '\e807';
     }
@@ -103,7 +84,7 @@
 
 /* '' */
 
-.icon-list-bullet {
+.icon-list-bullet() {
     &:before {
         content: '\f0ca';
     }
@@ -111,7 +92,7 @@
 
 /* '' */
 
-.icon-list-numbered {
+.icon-list-numbered() {
     &:before {
         content: '\f0cb';
     }
@@ -119,7 +100,7 @@
 
 /* '' */
 
-.icon-table {
+.icon-table() {
     &:before {
         content: '\f0ce';
     }
@@ -127,7 +108,7 @@
 
 /* '' */
 
-.icon-exchange {
+.icon-exchange() {
     &:before {
         content: '\f0ec';
     }
@@ -135,7 +116,7 @@
 
 /* '' */
 
-.icon-quote-left {
+.icon-quote-left() {
     &:before {
         content: '\f10d';
     }
@@ -143,7 +124,7 @@
 
 /* '' */
 
-.icon-code {
+.icon-code() {
     &:before {
         content: '\f121';
     }
@@ -151,7 +132,7 @@
 
 /* '' */
 
-.icon-help {
+.icon-help() {
     &:before {
         content: '\f128';
     }
@@ -159,7 +140,7 @@
 
 /* '' */
 
-.icon-header {
+.icon-header() {
     &:before {
         content: '\f1dc';
     }
@@ -167,7 +148,7 @@
 
 /* '' */
 
-.icon-plus {
+.icon-plus() {
     &:before {
         content: '\e809';
     }
