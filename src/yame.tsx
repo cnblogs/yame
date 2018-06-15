@@ -24,8 +24,15 @@ class Yame extends HTMLElement {
     static TagName = 'ya-markdown';
     static WithPolyfill = true;
     hostEl: Yame;
-    editorHost: HTMLTextAreaElement;
-    previewHost: HTMLDivElement;
+    ui: {
+        editorHost?: HTMLTextAreaElement,
+        previewHost?: HTMLDivElement
+    } = {};
+    editor: CodeMirror.Editor;
+    state = {
+        enableHmd: true
+    };
+
     $editorChanges = new Subject<string>();
     preview$: Observable<string>;
 
@@ -62,21 +69,49 @@ class Yame extends HTMLElement {
 
     subscribe() {
         this.preview$.subscribe(result => {
-            this.previewHost.innerHTML = result;
+            this.ui.previewHost.innerHTML = result;
         });
     }
 
+    toggleHmd() {
+        if (this.state.enableHmd) {
+            HyperMD.switchToNormal(this.editor);
+        } else {
+            HyperMD.switchToHyperMD(this.editor, '');
+        }
+        this.state.enableHmd = !this.state.enableHmd;
+    }
+
+    /**
+     * Create component's DOM, will be called once on construction.
+     *
+     * @returns Components's DOM
+     * @memberof Yame
+     */
     render() {
-        console.log(Yame.WithPolyfill);
         return <div class='ya-markdown host'>
             <div class='yame-container'>
                 <style>{cmScoped}</style>
                 <style>{styleContent}</style>
                 {Yame.WithPolyfill ? null : <style>{cmLint}</style>}
                 <div class='editor'>
-                    <textarea class='editor-host' ref={r => this.editorHost = r}></textarea>
+                    <div className='toolbar'>
+                        <div className='left'>
+                            <span className='toggle-btn' onClick={() => this.toggleHmd()}>
+                                <i className='icon-code'></i>
+                            </span>
+                        </div>
+                        <div className='right'>
+                            <span className='toggle-btn'>
+                                <i className='icon-columns'></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class='editor-host'>
+                        <textarea ref={r => this.ui.editorHost = r}></textarea>
+                    </div>
                 </div>
-                <div ref={r => this.previewHost = r} class='preview'></div></div>
+                <div ref={r => this.ui.previewHost = r} class='preview'></div></div>
         </div>;
     }
 
@@ -88,7 +123,7 @@ class Yame extends HTMLElement {
         const elms = this.render();
         this.shadowRoot.appendChild(elms);
         // create editor
-        const editor = HyperMD.fromTextArea(this.editorHost, {
+        this.editor = HyperMD.fromTextArea(this.ui.editorHost, {
             lint: {
                 disableMdRules: ['MD002', 'MD033', 'MD041', 'MD013']
             },
@@ -96,7 +131,7 @@ class Yame extends HTMLElement {
             gutters: ['CodeMirror-lint-markers'],
             hmdModeLoader: true,
         });
-        editor.on('change', e => {
+        this.editor.on('change', e => {
             this.$editorChanges.next(e.getValue());
         });
         this.applyRx();
@@ -106,7 +141,7 @@ class Yame extends HTMLElement {
         document.head.appendChild(<style>{yameFont}</style>);
         setTimeout(() => {
             // after modified styles, editor should be refreshed
-            editor.refresh();
+            this.editor.refresh();
         }, 0);
     }
 }

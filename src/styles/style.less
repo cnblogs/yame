@@ -1,32 +1,154 @@
-@black: #000000;
-@neutralDark: #212121;
-@neutralPrimary: #333333;
-@neutralPrimaryAlt: #3c3c3c;
-@neutralSecondary: #666666;
-@neutralTertiary: #a6a6a6;
-@neutralTertiaryAlt: #c8c8c8;
-@neutralQuaternary: #d0d0d0;
-@neutralQuaternaryAlt: #dadada;
-@neutralLight: #eaeaea;
-@neutralLighter: #f4f4f4;
-@neutralLighterAlt: #f8f8f8;
-@white: #ffffff;
-@themeDarker: #004578;
-@themeDark: #005a9e;
-@themeDarkAlt: #106ebe;
-@themePrimary: #0078d4;
-@themeSecondary: #2b88d8;
-@themeTertiary: #71afe5;
-@themeLight: #c7e0f4;
-@themeLighter: #deecf9;
-@themeLighterAlt: #eff6fc;
-
 @import './mixins.less';
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
     .yame-font();
 }
 
+.icon-cancel-circled {
+    &:before {
+        content: '\e800';
+    }
+}
+
+/* '' */
+
+.icon-bold {
+    &:before {
+        content: '\e801';
+    }
+}
+
+/* '' */
+
+.icon-italic {
+    &:before {
+        content: '\e802';
+    }
+}
+
+/* '' */
+
+.icon-link {
+    &:before {
+        content: '\e803';
+    }
+}
+
+/* '' */
+
+.icon-picture {
+    &:before {
+        content: '\e804';
+    }
+}
+
+/* '' */
+
+.icon-check {
+    &:before {
+        content: '\e805';
+    }
+}
+
+/* '' */
+
+.icon-cog {
+    &:before {
+        content: '\e806';
+    }
+}
+
+/* '' */
+
+.icon-help-circled {
+    &:before {
+        content: '\e807';
+    }
+}
+
+/* '' */
+
+.icon-list-bullet {
+    &:before {
+        content: '\f0ca';
+    }
+}
+
+/* '' */
+
+.icon-list-numbered {
+    &:before {
+        content: '\f0cb';
+    }
+}
+
+/* '' */
+
+.icon-table {
+    &:before {
+        content: '\f0ce';
+    }
+}
+
+/* '' */
+
+.icon-exchange {
+    &:before {
+        content: '\f0ec';
+    }
+}
+
+/* '' */
+
+.icon-quote-left {
+    &:before {
+        content: '\f10d';
+    }
+}
+
+/* '' */
+
+.icon-code {
+    &:before {
+        content: '\f121';
+    }
+}
+
+/* '' */
+
+.icon-help {
+    &:before {
+        content: '\f128';
+    }
+}
+
+/* '' */
+
+.icon-header {
+    &:before {
+        content: '\f1dc';
+    }
+}
+
+/* '' */
+
+.icon-plus {
+    &:before {
+        content: '\e809';
+    }
+}
+
+/* '' */
+
+.icon-columns {
+    &:before {
+        content: '\f0db';
+    }
+}
+
+/* '' */
+
+// component styles
 .editor-style() {
     .CodeMirror {
         height: 100%;
@@ -34,8 +156,57 @@
     }
     border: 1px solid @themePrimary;
     width: 50%;
+    .toolbar {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        height: 40px;
+        box-shadow: 0px 2px 6px 0px lightgrey;
+        margin-bottom: 5px;
+        .left,
+        .right {
+            display: flex;
+            flex-flow: row;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+        .left {
+            .toggle-btn {
+                border-right: 1px @neutralQuaternary solid;
+            }
+        }
+        .right {
+            .toggle-btn {
+                border-left: 1px @neutralQuaternary solid;
+            }
+        }
+        .toggle-btn {
+            width: 40px;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
+            align-items: center;
+            color: @neutralPrimary;
+            cursor: pointer;
+            &:before {
+                content: ' ';
+            }
+            &:after {
+                content: ' ';
+                position: relative;
+                display: block;
+                background: transparent;
+                width: 40px;
+                height: 3px;
+                transition: background-color;
+            }
+            &:hover:after {
+                background: @themePrimary;
+            }
+        }
+    }
     .editor-host {
-        height: 100%;
+        height: calc(100% - 45px);
     }
 }
 
