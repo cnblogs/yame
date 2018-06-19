@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "codemirror": "^5.38.0",
+        "elm-rx": "^3.0.3",
         "hypermd": "^0.3.4",
         "jsx-dom": "^6.1.1",
         "markdown-it": "^8.4.1",
