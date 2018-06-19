@@ -4,6 +4,7 @@ import * as HyperMD from 'hypermd';
 import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/lint/lint.js';
 import './mdlint';
+import 'codemirror/addon/selection/active-line.js';
 import * as mdit from 'markdown-it';
 import { debounceTime, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -130,6 +131,8 @@ class Yame extends HTMLElement {
             mode: 'hypermd',
             gutters: ['CodeMirror-lint-markers'],
             hmdModeLoader: true,
+            styleActiveLine: true,
+            lineWrapping: true
         });
         this.editor.on('change', e => {
             this.$editorChanges.next(e.getValue());
