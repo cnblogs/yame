@@ -30,9 +30,6 @@ dependency to do so. Please see the [github-markup gem readme](https://github.co
 
 ### Newlines
 
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#newlines
-
 GFM honors the markdown specification in how [paragraphs and line breaks are handled](https://daringfireball.net/projects/markdown/syntax#p).
 
 A paragraph is simply one or more consecutive lines of text, separated by one or more blank lines.
@@ -54,9 +51,6 @@ Sugar is sweet
 
 ### Multiple underscores in words
 
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#multiple-underscores-in-words
-
 It is not reasonable to italicize just _part_ of a word, especially when you're dealing with code and names that often appear with multiple underscores. Therefore, GFM ignores multiple underscores in words:
 
     perform_complicated_task
@@ -69,9 +63,6 @@ do_this_and_do_that_and_another_thing
 
 ### URL auto-linking
 
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#url-auto-linking
-
 GFM will autolink almost any URL you copy and paste into your text:
 
     * https://www.google.com
@@ -81,7 +72,7 @@ GFM will autolink almost any URL you copy and paste into your text:
     * irc://irc.freenode.net/gitlab
     * http://localhost:3000
 
-* https://www.google.com
+- https://www.google.com
 * https://google.com/
 * ftp://ftp.us.debian.org/debian/
 * smb://foo/bar/baz
@@ -186,116 +177,11 @@ markdown = Redcarpet.new("Hello World!")
 puts markdown.to_html
 ```
 
-```
+```no
 No language indicated, so no syntax highlighting.
 s = "There is no highlighting for this."
 But let's throw in a <b>tag</b>.
 ```
-
-### Inline Diff
-
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#inline-diff
-
-With inline diffs tags you can display {+ additions +} or [- deletions -].
-
-The wrapping tags can be either curly braces or square brackets: [+ additions +] or {- deletions -}.
-
-Examples:
-
-```
-- {+ additions +}
-- [+ additions +]
-- {- deletions -}
-- [- deletions -]
-```
-
-However the wrapping tags cannot be mixed as such:
-
-```
-- {+ additions +]
-- [+ additions +}
-- {- deletions -]
-- [- deletions -}
-```
-
-### Emoji
-
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#emoji
-
-	Sometimes you want to :monkey: around a bit and add some :star2: to your :speech_balloon:. Well we have a gift for you:
-
-	:zap: You can use emoji anywhere GFM is supported. :v:
-
-	You can use it to point out a :bug: or warn about :speak_no_evil: patches. And if someone improves your really :snail: code, send them some :birthday:. People will :heart: you for that.
-
-	If you are new to this, don't be :fearful:. You can easily join the emoji :family:. All you need to do is to look up one of the supported codes.
-
-	Consult the [Emoji Cheat Sheet](https://www.emojicopy.com) for a list of all supported emoji codes. :thumbsup:
-
-Sometimes you want to :monkey: around a bit and add some :star2: to your :speech_balloon:. Well we have a gift for you:
-
-:zap: You can use emoji anywhere GFM is supported. :v:
-
-You can use it to point out a :bug: or warn about :speak_no_evil: patches. And if someone improves your really :snail: code, send them some :birthday:. People will :heart: you for that.
-
-If you are new to this, don't be :fearful:. You can easily join the emoji :family:. All you need to do is to look up one of the supported codes.
-
-Consult the [Emoji Cheat Sheet](https://www.emojicopy.com) for a list of all supported emoji codes. :thumbsup:
-
-### Special GitLab References
-
-GFM recognizes special references.
-
-You can easily reference e.g. an issue, a commit, a team member or even the whole team within a project.
-
-GFM will turn that reference into a link so you can navigate between them easily.
-
-GFM will recognize the following:
-
-| input                      | references                      |
-|:---------------------------|:--------------------------------|
-| `@user_name`               | specific user                   |
-| `@group_name`              | specific group                  |
-| `@all`                     | entire team                     |
-| `#12345`                   | issue                           |
-| `!123`                     | merge request                   |
-| `$123`                     | snippet                         |
-| `~123`                     | label by ID                     |
-| `~bug`                     | one-word label by name          |
-| `~"feature request"`       | multi-word label by name        |
-| `%123`                     | project milestone by ID         |
-| `%v1.23`                   | one-word milestone by name      |
-| `%"release candidate"`     | multi-word milestone by name    |
-| `9ba12248`                 | specific commit                 |
-| `9ba12248...b19a04f5`      | commit range comparison         |
-| `[README](doc/README)`     | repository file references      |
-| `[README](doc/README#L13)` | repository file line references |
-
-GFM also recognizes certain cross-project references:
-
-| input                                   | references              |
-|:----------------------------------------|:------------------------|
-| `namespace/project#123`                 | issue                   |
-| `namespace/project!123`                 | merge request           |
-| `namespace/project%123`                 | project milestone       |
-| `namespace/project$123`                 | snippet                 |
-| `namespace/project@9ba12248`            | specific commit         |
-| `namespace/project@9ba12248...b19a04f5` | commit range comparison |
-| `namespace/project~"Some label"`        | issues with given label |
-
-It also has a shorthand version to reference other projects from the same namespace:
-
-| input                         | references              |
-|:------------------------------|:------------------------|
-| `project#123`                 | issue                   |
-| `project!123`                 | merge request           |
-| `project%123`                 | project milestone       |
-| `project$123`                 | snippet                 |
-| `project@9ba12248`            | specific commit         |
-| `project@9ba12248...b19a04f5` | commit range comparison |
-| `project~"Some label"`        | issues with given label |
 
 ### Task Lists
 
@@ -307,16 +193,16 @@ You can add task lists to issues, merge requests and comments. To create a task 
 ```no-highlight
 - [x] Completed task
 - [ ] Incomplete task
-    - [ ] Sub-task 1
-    - [x] Sub-task 2
-    - [ ] Sub-task 3
+  - [ ] Sub-task 1
+  - [x] Sub-task 2
+  - [ ] Sub-task 3
 ```
 
 - [x] Completed task
 - [ ] Incomplete task
-    - [ ] Sub-task 1
-    - [x] Sub-task 2
-    - [ ] Sub-task 3
+  - [ ] Sub-task 1
+  - [x] Sub-task 2
+  - [ ] Sub-task 3
 
 Tasks formatted as ordered lists are supported as well:
 
@@ -333,23 +219,6 @@ Tasks formatted as ordered lists are supported as well:
     1. [x] Sub-task 2
 
 Task lists can only be created in descriptions, not in titles. Task item state can be managed by editing the description's Markdown or by toggling the rendered check boxes.
-
-### Videos
-
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#videos
-
-Image tags with a video extension are automatically converted to a video player.
-
-The valid video extensions are `.mp4`, `.m4v`, `.mov`, `.webm`, and `.ogv`.
-
-    Here's a sample video:
-
-    ![Sample Video](img/markdown_video.mp4)
-
-Here's a sample video:
-
-![Sample Video](img/markdown_video.mp4)
 
 ### Math
 
@@ -373,9 +242,10 @@ Example:
 
 Becomes:
 
-This math is inline $`a^2+b^2=c^2`$.
+This math is inline $a^2+b^2=c^2$.
 
 This is on a separate line
+
 ```math
 a^2+b^2=c^2
 ```
@@ -384,79 +254,6 @@ _Be advised that KaTeX only supports a [subset][katex-subset] of LaTeX._
 
 >**Note:**
 This also works for the asciidoctor `:stem: latexmath`. For details see the [asciidoctor user manual][asciidoctor-manual].
-
-### Colors
-
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#colors
-
-It is possible to have color written in HEX, RGB or HSL format rendered with a color indicator.
-
-Color written inside backticks will be followed by a color "chip".
-
-Examples:
-
-    `#F00`  
-    `#F00A`  
-    `#FF0000`  
-    `#FF0000AA`  
-    `RGB(0,255,0)`  
-    `RGB(0%,100%,0%)`  
-    `RGBA(0,255,0,0.7)`  
-    `HSL(540,70%,50%)`  
-    `HSLA(540,70%,50%,0.7)`
-
-Become:
-
-`#F00`  
-`#F00A`  
-`#FF0000`  
-`#FF0000AA`  
-`RGB(0,255,0)`  
-`RGB(0%,100%,0%)`  
-`RGBA(0,255,0,0.7)`  
-`HSL(540,70%,50%)`  
-`HSLA(540,70%,50%,0.7)`
-
-#### Supported formats:
-
-* HEX: `` `#RGB[A]` `` or `` `#RRGGBB[AA]` ``
-* RGB: `` `RGB[A](R, G, B[, A])` ``
-* HSL: `` `HSL[A](H, S, L[, A])` ``
-
-### Mermaid
-
-> [Introduced](https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/15107) in
-GitLab 10.3.
-
-> If this is not rendered correctly, see
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/user/markdown.md#mermaid
-
-It is possible to generate diagrams and flowcharts from text using [Mermaid][mermaid].
-
-In order to generate a diagram or flowchart, you should write your text inside the `mermaid` block.
-
-Example:
-
-    ```mermaid
-    graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
-    ```
-
-Becomes:
-
-```mermaid
-graph TD;
-  A-->B;
-  A-->C;
-  B-->D;
-  C-->D;
-```
-
-For details see the [Mermaid official page][mermaid].
 
 ## Standard Markdown
 
@@ -496,7 +293,7 @@ The IDs are generated from the content of the header according to the following 
 
 For example:
 
-```
+```no
 # This header has spaces in it
 ## This header has a :thumbsup: in it
 # This header has Unicode in it: 한글
@@ -585,11 +382,11 @@ Example:
 
 Becomes:
 
-1.  First ordered list item
+1. First ordered list item
 
     Paragraph of first item.
 
-2.  Another item
+1. Another item
 
 If the paragraph of the first item is not indented with the proper number of spaces,
 the paragraph will appear outside the list, instead of properly indented under the list item.
@@ -792,7 +589,7 @@ Here are some things to try out:
 
 Examples:
 
-```
+```no
 Here's a line for us to start with.
 
 This line is separated from the one above by two newlines, so it will be a *separate paragraph*.
@@ -826,7 +623,7 @@ Tables aren't part of the core Markdown spec, but they are part of GFM.
 
 Example:
 
-```
+```markdown
 | header 1 | header 2 |
 | -------- | -------- |
 | cell 1   | cell 2   |
@@ -846,7 +643,7 @@ By including colons in the header row, you can align the text within that column
 
 Example:
 
-```
+```markdown
 | Left Aligned | Centered | Right Aligned | Left Aligned | Centered | Right Aligned |
 | :----------- | :------: | ------------: | :----------- | :------: | ------------: |
 | Cell 1       | Cell 2   | Cell 3        | Cell 4       | Cell 5   | Cell 6        |
@@ -864,7 +661,7 @@ Becomes:
 
 Example:
 
-```
+```markdown
 You can add footnotes to your text as follows.[^2]
 [^2]: This is my awesome footnote.
 ```
@@ -873,92 +670,7 @@ Becomes:
 
 You can add footnotes to your text as follows.[^2]
 
-### Superscripts / Subscripts
-
-CommonMark and GFM currently do not support the superscript syntax ( `x^2` ) that Redcarpet does.  You can use the standard HTML syntax for superscripts and subscripts.
-
-```
-The formula for water is H<sub>2</sub>O
-while the equation for the theory of relativity is E = mc<sup>2</sup>.
-```
-
 The formula for water is H<sub>2</sub>O while the equation for the theory of relativity is E = mc<sup>2</sup>.
-
-
-## Wiki-specific Markdown
-
-The following examples show how links inside wikis behave.
-
-### Wiki - Direct page link
-
-A link which just includes the slug for a page will point to that page,
-_at the base level of the wiki_.
-
-This snippet would link to a `documentation` page at the root of your wiki:
-
-```markdown
-[Link to Documentation](documentation)
-```
-
-### Wiki - Direct file link
-
-Links with a file extension point to that file, _relative to the current page_.
-
-If this snippet was placed on a page at `<your_wiki>/documentation/related`,
-it would link to `<your_wiki>/documentation/file.md`:
-
-```markdown
-[Link to File](file.md)
-```
-
-### Wiki - Hierarchical link
-
-A link can be constructed relative to the current wiki page using `./<page>`,
-`../<page>`, etc.
-
-- If this snippet was placed on a page at `<your_wiki>/documentation/main`,
-  it would link to `<your_wiki>/documentation/related`:
-
-    ```markdown
-    [Link to Related Page](./related)
-    ```
-
-- If this snippet was placed on a page at `<your_wiki>/documentation/related/content`,
-  it would link to `<your_wiki>/documentation/main`:
-
-    ```markdown
-    [Link to Related Page](../main)
-    ```
-
-- If this snippet was placed on a page at `<your_wiki>/documentation/main`,
-  it would link to `<your_wiki>/documentation/related.md`:
-
-    ```markdown
-    [Link to Related Page](./related.md)
-    ```
-
-- If this snippet was placed on a page at `<your_wiki>/documentation/related/content`,
-  it would link to `<your_wiki>/documentation/main.md`:
-
-    ```markdown
-    [Link to Related Page](../main.md)
-    ```
-
-### Wiki - Root link
-
-A link starting with a `/` is relative to the wiki root.
-
-- This snippet links to `<wiki_root>/documentation`:
-
-    ```markdown
-    [Link to Related Page](/documentation)
-    ```
-
-- This snippet links to `<wiki_root>/miscellaneous.md`:
-
-    ```markdown
-    [Link to Related Page](/miscellaneous.md)
-    ```
 
 ## References
 
