@@ -38,7 +38,7 @@ interface IYameAppModel {
     src: string;
 }
 
-class UpdateSrc extends msgOf('UpdateSrc')<string>() { }
+export class UpdateSrc extends msgOf('UpdateSrc')<string>() { }
 
 type AppMsg = UpdateSrc;
 

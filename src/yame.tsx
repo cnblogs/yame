@@ -13,7 +13,7 @@ import * as cmScoped from './styles/codemirror-scoped.less';
 import * as cmLint from './styles/lint.less';
 import * as styleContent from './styles/style.less';
 import * as yameFont from './styles/yame-font.less';
-import { ToggleHmd, YameUIService, TogglePreview, YameAppService } from './yame.service';
+import { ToggleHmd, YameUIService, TogglePreview, YameAppService, UpdateSrc } from './yame.service';
 
 
 
@@ -34,9 +34,6 @@ class Yame extends HTMLElement {
     editor: CodeMirror.Editor;
     uiStore = new YameUIService(true);
     appStore = new YameAppService(true);
-
-    $editorChanges = new Subject<string>();
-    preview$: Observable<string>;
 
     static checkPolyfill() {
         if (window.customElements && window.customElements.define.toString().indexOf('native') >= 0) {
@@ -61,18 +58,9 @@ class Yame extends HTMLElement {
     }
 
     applyRx() {
-        this.preview$ = this.$editorChanges.pipe(
-            debounceTime(200),
-            map(code => {
-                return md.render(code);
-            })
-        );
     }
 
     subscribe() {
-        this.preview$.subscribe(result => {
-            this.ui.previewHost.innerHTML = result;
-        });
         this.uiStore.model$.pipe(
             map(ui => ui.enableHmd)
         ).subscribe(enabled => {
@@ -86,6 +74,15 @@ class Yame extends HTMLElement {
             map(ui => ui.enablePreview)
         ).subscribe(enabled => {
             this.ui.previewHost.style.display = enabled ? 'block' : 'none';
+        });
+        this.appStore.model$.pipe(
+            map(app => app.src),
+            debounceTime(200),
+            map(code => {
+                return md.render(code);
+            })
+        ).subscribe(html => {
+            this.ui.previewHost.innerHTML = html;
         });
     }
 
@@ -148,7 +145,7 @@ class Yame extends HTMLElement {
             lineWrapping: true
         });
         this.editor.on('change', e => {
-            this.$editorChanges.next(e.getValue());
+            this.appStore.send(new UpdateSrc(e.getValue()));
         });
         this.applyRx();
         this.subscribe();
