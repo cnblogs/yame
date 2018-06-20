@@ -139,7 +139,7 @@ class Yame extends HTMLElement {
         // create editor
         this.editor = HyperMD.fromTextArea(this.ui.editorHost, {
             lint: {
-                disableMdRules: ['MD002', 'MD033', 'MD041', 'MD013']
+                disableMdRules: ['MD002', 'MD033', 'MD041', 'MD013', 'MD034', 'MD004']
             },
             mode: 'hypermd',
             gutters: ['CodeMirror-lint-markers'],
