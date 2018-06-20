@@ -10,9 +10,10 @@
     },
     "dependencies": {
         "codemirror": "^5.38.0",
-        "elm-rx": "^3.0.3",
+        "elm-rx": "3.0.4",
         "hypermd": "^0.3.4",
         "jsx-dom": "^6.1.1",
+        "lodash-es": "^4.17.10",
         "markdown-it": "^8.4.1",
         "markdownlint-no-fs": "^0.10.3",
         "rxjs": "^6.2.0",
@@ -20,6 +21,7 @@
     },
     "devDependencies": {
         "@types/codemirror": "^0.0.57",
+        "@types/lodash-es": "^4.17.0",
         "@types/markdown-it": "0.0.4",
         "babel-core": "^6.26.3",
         "babel-loader": "^7.1.4",
@@ -31,7 +33,7 @@
         "less-loader": "^4.1.0",
         "ts-loader": "^4.4.1",
         "tslint": "^5.10.0",
-        "typescript": "^2.9.1",
+        "typescript": "^2.9.2",
         "webpack": "^4.12.0",
         "webpack-bundle-analyzer": "^2.13.1",
         "webpack-cli": "^3.0.3",

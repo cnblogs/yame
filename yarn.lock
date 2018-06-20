@@ -22,6 +22,16 @@
   version "0.0.57"
   resolved "http://registry.npm.taobao.org/@types/codemirror/download/@types/codemirror-0.0.57.tgz#1b10e330be084e066772883fc3022aae22907cd4"
 
+"@types/lodash-es@^4.17.0":
+  version "4.17.0"
+  resolved "http://registry.npm.taobao.org/@types/lodash-es/download/@types/lodash-es-4.17.0.tgz#ed9044d62ee36a93e0650b112701986b1c74c766"
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.110"
+  resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.110.tgz#fb07498f84152947f30ea09d89207ca07123461e"
+
 "@types/markdown-it@0.0.4":
   version "0.0.4"
   resolved "http://registry.npm.taobao.org/@types/markdown-it/download/@types/markdown-it-0.0.4.tgz#c5f67365916044b342dae8d702724788ba0b5b74"
@@ -1778,9 +1788,9 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-elm-rx@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/elm-rx/-/elm-rx-3.0.3.tgz#e51da7795c8407d6f6a87543312bbbb6b313621c"
+elm-rx@3.0.4:
+  version "3.0.4"
+  resolved "https://registry.npmjs.org/elm-rx/-/elm-rx-3.0.4.tgz#9483ca87408d5ca85abd0429926ed1b29e324fe7"
 
 emojis-list@^2.0.0:
   version "2.1.0"
@@ -2978,6 +2988,10 @@ locate-path@^2.0.0:
   dependencies:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
+
+lodash-es@^4.17.10:
+  version "4.17.10"
+  resolved "http://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
 
 lodash.camelcase@^4.3.0:
   version "4.3.0"
@@ -4891,9 +4905,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "http://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.9.1:
-  version "2.9.1"
-  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.9.1.tgz#fdb19d2c67a15d11995fd15640e373e09ab09961"
+typescript@^2.9.2:
+  version "2.9.2"
+  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.5"

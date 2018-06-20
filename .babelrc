@@ -7,11 +7,9 @@
                     "browsers": [
                         "chrome >= 49"
                     ]
-                }
+                },
+                "modules": false
             }
         ]
-    ],
-    "plugins": [
-        "syntax-dynamic-import"
     ]
 }

@@ -1,19 +1,21 @@
+import './mdlint';
+import 'codemirror/addon/lint/lint.js';
+import 'codemirror/addon/selection/active-line.js';
+
+import * as CodeMirror from 'codemirror';
+import * as HyperMD from 'hypermd';
+import * as mdit from 'markdown-it';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, map, distinct } from 'rxjs/operators';
 import * as React from 'jsx-dom';
 
-import * as HyperMD from 'hypermd';
-import * as CodeMirror from 'codemirror';
-import 'codemirror/addon/lint/lint.js';
-import './mdlint';
-import 'codemirror/addon/selection/active-line.js';
-import * as mdit from 'markdown-it';
-import { debounceTime, map } from 'rxjs/operators';
-import { Subject, Observable } from 'rxjs';
-
-
-import * as styleContent from './styles/style.less';
 import * as cmScoped from './styles/codemirror-scoped.less';
 import * as cmLint from './styles/lint.less';
+import * as styleContent from './styles/style.less';
 import * as yameFont from './styles/yame-font.less';
+import { ToggleHmd, YameUIService, TogglePreview, YameAppService } from './yame.service';
+
+
 
 window['CodeMirror'] = CodeMirror;
 
@@ -30,9 +32,8 @@ class Yame extends HTMLElement {
         previewHost?: HTMLDivElement
     } = {};
     editor: CodeMirror.Editor;
-    state = {
-        enableHmd: true
-    };
+    uiStore = new YameUIService(true);
+    appStore = new YameAppService(true);
 
     $editorChanges = new Subject<string>();
     preview$: Observable<string>;
@@ -72,15 +73,27 @@ class Yame extends HTMLElement {
         this.preview$.subscribe(result => {
             this.ui.previewHost.innerHTML = result;
         });
+        this.uiStore.model$.pipe(
+            map(ui => ui.enableHmd)
+        ).subscribe(enabled => {
+            if (enabled) {
+                HyperMD.switchToHyperMD(this.editor, '');
+            } else {
+                HyperMD.switchToNormal(this.editor);
+            }
+        });
+        this.uiStore.model$.pipe(
+            map(ui => ui.enablePreview)
+        ).subscribe(enabled => {
+            this.ui.previewHost.style.display = enabled ? 'block' : 'none';
+        });
     }
 
     toggleHmd() {
-        if (this.state.enableHmd) {
-            HyperMD.switchToNormal(this.editor);
-        } else {
-            HyperMD.switchToHyperMD(this.editor, '');
-        }
-        this.state.enableHmd = !this.state.enableHmd;
+        this.uiStore.send(new ToggleHmd({}));
+    }
+    toogglePreview() {
+        this.uiStore.send(new TogglePreview({}));
     }
 
     /**
@@ -103,7 +116,7 @@ class Yame extends HTMLElement {
                             </span>
                         </div>
                         <div className='right'>
-                            <span className='toggle-btn'>
+                            <span className='toggle-btn' onClick={() => this.toogglePreview()}>
                                 <i className='icon-columns'></i>
                             </span>
                         </div>
