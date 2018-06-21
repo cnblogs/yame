@@ -14,7 +14,7 @@ import * as styleContent from './styles/style.less';
 import * as yameFont from './styles/yame-font.less';
 import { ToggleHmd, YameUIService, TogglePreview, YameAppService, UpdateSrc, LineScrolled } from './yame.service';
 import mdLinenumber from './markdown-it-linenumber';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 
 
 window['CodeMirror'] = CodeMirror;
@@ -62,6 +62,38 @@ class Yame extends HTMLElement {
     }
 
     subscribe() {
+        // DOM 事件
+        type CmChange = [CodeMirror.Editor, CodeMirror.EditorChange];
+        const $updateScroll = new Subject();
+        const editorChange$ = fromEvent<CmChange>(this.editor, 'change').pipe(
+            debounceTime(200)
+        );
+        editorChange$.subscribe(([obj, event]) => {
+            this.appStore.send(new UpdateSrc(obj.getValue()));
+        });
+        fromEvent(this.editor, 'scroll').pipe(
+            takeUntil(this.uiStore.unSub),
+            debounceTime(10),
+            merge($updateScroll)
+        ).subscribe(() => {
+            // 编辑器滚动时，获取显示在第一行的代码的行号
+            const linesWrapper = this.ui.editorHost.querySelector('.CodeMirror-code');
+            const lineDOMs = Array.from(linesWrapper.children);
+            const wrapperBounding = this.ui.editorHost.getBoundingClientRect();
+            const isLineInView = ((line: HTMLElement) => {
+                const lineBounding = line.getBoundingClientRect();
+                return lineBounding.top >= wrapperBounding.top;
+            });
+            const firstLineDom = lineDOMs.find(isLineInView);
+            if (firstLineDom === null) {
+                return;
+            }
+            const firstLine: HTMLDivElement = firstLineDom.querySelector('.CodeMirror-linenumber');
+            const firstLineNumber = parseInt(firstLine.innerText, 10);
+
+            this.uiStore.send(new LineScrolled({ origin: 'src', line: firstLineNumber }));
+        });
+        // 应用事件
         // 切换 HMD
         this.uiStore.model$.pipe(
             map(ui => ui.enableHmd)
@@ -87,6 +119,8 @@ class Yame extends HTMLElement {
             })
         ).subscribe(html => {
             this.ui.previewHost.innerHTML = html;
+            // 更新预览后可能需要更新预览的滚动位置
+            $updateScroll.next();
         });
         // 滚动源码时同步滚动预览
         this.uiStore.model$.pipe(
@@ -199,35 +233,6 @@ class Yame extends HTMLElement {
             hmdModeLoader: true,
             styleActiveLine: true,
             lineWrapping: true
-        });
-        type CmChange = [CodeMirror.Editor, CodeMirror.EditorChange];
-        const editorChange$ = fromEvent<CmChange>(this.editor, 'change').pipe(
-            debounceTime(200)
-        );
-        editorChange$.subscribe(([obj, event]) => {
-            this.appStore.send(new UpdateSrc(obj.getValue()));
-        });
-        fromEvent(this.editor, 'scroll').pipe(
-            takeUntil(this.uiStore.unSub),
-            debounceTime(10),
-            merge(editorChange$),
-        ).subscribe(() => {
-            // 编辑器滚动时，获取显示在第一行的代码的行号
-            const linesWrapper = this.ui.editorHost.querySelector('.CodeMirror-code');
-            const lineDOMs = Array.from(linesWrapper.children);
-            const wrapperBounding = this.ui.editorHost.getBoundingClientRect();
-            const isLineInView = ((line: HTMLElement) => {
-                const lineBounding = line.getBoundingClientRect();
-                return lineBounding.top >= wrapperBounding.top;
-            });
-            const firstLineDom = lineDOMs.find(isLineInView);
-            if (firstLineDom === null) {
-                return;
-            }
-            const firstLine: HTMLDivElement = firstLineDom.querySelector('.CodeMirror-linenumber');
-            const firstLineNumber = parseInt(firstLine.innerText, 10);
-
-            this.uiStore.send(new LineScrolled({ origin: 'src', line: firstLineNumber }));
         });
         this.applyRx();
         this.subscribe();
