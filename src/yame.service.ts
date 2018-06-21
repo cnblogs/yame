@@ -1,23 +1,37 @@
 import { ElmArchService, msgOf } from 'elm-rx';
 import { merge } from 'lodash-es';
 import { ElmRxMsg } from 'elm-rx/src/ElmRxMsg';
+import { Subject } from 'rxjs';
 
 interface IYameUIModel {
     enableHmd: boolean;
     enablePreview: boolean;
+    srcLine: number;
+    /**
+     * 表示需要在预览窗口滚动到源码中的行号
+     *
+     * @type {number}
+     * @memberof IYameUIModel
+     */
+    previewLine: number;
 }
 
 export class ToggleHmd extends msgOf('ToggleHmd')<{}>() { }
 
 export class TogglePreview extends msgOf('TogglePreview')<{}>() { }
 
-type UIMsg = ToggleHmd | TogglePreview;
+export class LineScrolled extends msgOf('LineScrolled')<{ origin: 'src' | 'preview'; line: number }>() { }
+
+type UIMsg = ToggleHmd | TogglePreview | LineScrolled;
 
 export class YameUIService extends ElmArchService<IYameUIModel, UIMsg> {
+    unSub = new Subject();
     protected initModel(): IYameUIModel {
         return {
             enableHmd: false,
-            enablePreview: true
+            enablePreview: true,
+            srcLine: 1,
+            previewLine: 1
         };
     }
     update() {
@@ -27,10 +41,27 @@ export class YameUIService extends ElmArchService<IYameUIModel, UIMsg> {
                     return merge(model, { enableHmd: !model.enableHmd });
                 case 'TogglePreview':
                     return merge(model, { enablePreview: !model.enablePreview });
+                case 'LineScrolled':
+                    const { origin, line } = msg.payload;
+                    switch (origin) {
+                        case 'preview':
+                            return merge(model, { srcLine: line });
+                        case 'src':
+                            return merge(model, { previewLine: line });
+                        default:
+                            assertNever(origin);
+                            return model;
+                    }
                 default:
                     assertNever(msg);
             }
         };
+    }
+
+    destroy() {
+        super.destroy();
+        this.unSub.next();
+        this.unSub.complete();
     }
 }
 

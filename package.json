@@ -15,6 +15,7 @@
         "jsx-dom": "^6.1.1",
         "lodash-es": "^4.17.10",
         "markdown-it": "^8.4.1",
+        "markdown-it-for-inline": "^0.1.1",
         "markdownlint-no-fs": "^0.10.3",
         "rxjs": "^6.2.0",
         "url-loader": "^1.0.1"
