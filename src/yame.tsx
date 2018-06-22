@@ -205,14 +205,11 @@ class Yame extends HTMLElement {
             filter(_ => this.uiStore.model.enablePreview === true),
             map(code => {
                 return md.render(code);
-            }),
-            combineLatest(this.uiStore.model$.pipe(
-                map(ui => ui.previewLine)
-            ))
-        ).subscribe(([html, previewLine]) => {
+            })
+        ).subscribe((html) => {
             this.ui.previewHost.innerHTML = html;
             // 更新预览后可能需要更新预览的滚动位置
-            jumpInPreview(previewLine);
+            jumpInPreview(this.uiStore.model.previewLine);
         });
         // 滚动源码时同步滚动预览
         this.uiStore.model$.pipe(
