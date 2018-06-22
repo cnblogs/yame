@@ -19,7 +19,10 @@ export class ToggleHmd extends msgOf('ToggleHmd')<{}>() { }
 
 export class TogglePreview extends msgOf('TogglePreview')<{}>() { }
 
-export class LineScrolled extends msgOf('LineScrolled')<{ origin: 'src' | 'preview'; line: number }>() { }
+export class LineScrolled extends msgOf('LineScrolled')<{
+    origin: 'src' | 'preview';
+    line: number;
+}>() { }
 
 type UIMsg = ToggleHmd | TogglePreview | LineScrolled;
 

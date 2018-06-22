@@ -217,7 +217,8 @@
     border: 1px solid @themeSecondary;
     flex: 1 0 auto;
     width: 50%;
-    pre {
+    pre,
+    pre code {
         font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace, -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 }
@@ -236,6 +237,7 @@
         }
         .preview {
             .preview-style();
+            @import (less) './highlight.less';
         }
     }
 }

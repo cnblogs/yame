@@ -7,7 +7,7 @@ import * as CodeMirror from 'codemirror';
 import * as HyperMD from 'hypermd';
 import * as mdit from 'markdown-it';
 import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, merge, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, merge, takeUntil, combineAll, combineLatest } from 'rxjs/operators';
 
 import mdLinenumber from './markdown-it-linenumber';
 import * as cmScoped from './styles/codemirror-scoped.less';
@@ -15,12 +15,13 @@ import * as cmLint from './styles/lint.less';
 import * as styleContent from './styles/style.less';
 import * as yameFont from './styles/yame-font.less';
 import { LineScrolled, ToggleHmd, TogglePreview, UpdateSrc, YameAppService, YameUIService } from './yame.service';
-
+import highlighter from './syntaxHighlighter';
 
 window['CodeMirror'] = CodeMirror;
 
 const md = mdit({
-    html: true
+    html: true,
+    highlight: highlighter
 }).use(mdLinenumber);
 
 class Yame extends HTMLElement {
@@ -64,7 +65,6 @@ class Yame extends HTMLElement {
     subscribe() {
         // DOM 事件
         type CmChange = [CodeMirror.Editor, CodeMirror.EditorChange];
-        const $updateScroll = new Subject();
         const editorChange$ = fromEvent<CmChange>(this.editor, 'change').pipe(
             debounceTime(200)
         );
@@ -112,7 +112,6 @@ class Yame extends HTMLElement {
         });
         const $editorScroll = fromEvent(this.editor, 'scroll').pipe(
             takeUntil(this.uiStore.unSub),
-            merge($updateScroll)
         );
         const $previewScroll = fromEvent(this.ui.previewHost, 'scroll').pipe(
             takeUntil(this.uiStore.unSub),
@@ -168,23 +167,7 @@ class Yame extends HTMLElement {
         ).subscribe(enabled => {
             this.ui.previewHost.style.display = enabled ? 'block' : 'none';
         });
-        // 自动更新预览
-        this.appStore.model$.pipe(
-            map(app => app.src),
-            filter(_ => this.uiStore.model.enablePreview === true),
-            map(code => {
-                return md.render(code);
-            })
-        ).subscribe(html => {
-            this.ui.previewHost.innerHTML = html;
-            // 更新预览后可能需要更新预览的滚动位置
-            $updateScroll.next();
-        });
-        // 滚动源码时同步滚动预览
-        this.uiStore.model$.pipe(
-            map(app => app.previewLine),
-            distinctUntilChanged()
-        ).subscribe(line => {
+        const jumpInPreview = (line: number) => {
             // 首先找到与该行号最接近的两个顶级元素
             const blocks = this.ui.previewHost.children;
             let beginBlock: HTMLElement;
@@ -215,12 +198,31 @@ class Yame extends HTMLElement {
             // console.log({ line, beginNumber, endNumber, beginBlock });
             // 最后滚动过去
             this.ui.previewHost.scroll(0, scrollTarget);
+        };
+        // 自动更新预览
+        this.appStore.model$.pipe(
+            map(app => app.src),
+            filter(_ => this.uiStore.model.enablePreview === true),
+            map(code => {
+                return md.render(code);
+            }),
+            combineLatest(this.uiStore.model$.pipe(
+                map(ui => ui.previewLine)
+            ))
+        ).subscribe(([html, previewLine]) => {
+            this.ui.previewHost.innerHTML = html;
+            // 更新预览后可能需要更新预览的滚动位置
+            jumpInPreview(previewLine);
         });
+        // 滚动源码时同步滚动预览
+        this.uiStore.model$.pipe(
+            map(app => app.previewLine),
+            distinctUntilChanged()
+        ).subscribe(jumpInPreview);
         this.uiStore.model$.pipe(
             map(ui => ui.srcLine),
             distinctUntilChanged()
         ).subscribe(line => {
-            console.log('line', line);
             const targetLineTop = this.editor.heightAtLine(line - 1);
             const firstLineTop = this.editor.heightAtLine(0);
             const scrollTop = targetLineTop - firstLineTop;
