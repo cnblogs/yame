@@ -1,2 +1,5 @@
 scripts/
 font/
+*.ts
+*.tsx
+*.map

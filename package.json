@@ -1,6 +1,6 @@
 {
-    "name": "yame",
-    "version": "1.0.0",
+    "name": "@vutk/yame",
+    "version": "0.0.2",
     "description": "Yet another markdown editor.",
     "license": "MIT",
     "scripts": {
