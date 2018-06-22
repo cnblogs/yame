@@ -67,6 +67,3 @@ typings/
 .serverless
 
 .cache/
-dist/
-dist/*.js
-dist/*.map
