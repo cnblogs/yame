@@ -1,6 +1,5 @@
 import { ElmArchService, msgOf } from 'elm-rx';
 import { merge } from 'lodash-es';
-import { ElmRxMsg } from 'elm-rx/src/ElmRxMsg';
 import { Subject } from 'rxjs';
 
 interface IYameUIModel {
@@ -45,8 +44,14 @@ export class YameUIService extends ElmArchService<IYameUIModel, UIMsg> {
                     const { origin, line } = msg.payload;
                     switch (origin) {
                         case 'preview':
+                            if (line === model.previewLine) {
+                                return model;
+                            }
                             return merge(model, { srcLine: line });
                         case 'src':
+                            if (line === model.srcLine) {
+                                return model;
+                            }
                             return merge(model, { previewLine: line });
                         default:
                             assertNever(origin);
