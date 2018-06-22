@@ -67,3 +67,8 @@ typings/
 .serverless
 
 .cache/
+
+src/*.js
+src/*.js.map
+
+index.js
