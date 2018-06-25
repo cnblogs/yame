@@ -22,24 +22,38 @@ export class Snippet {
     insertInto(pos: CodeMirror.Position) {
         const { tokens } = this.parseBody();
         // cursor movements
-        const varLexemes = tokens.filter(l => l.type === 'var');
         let varCnt = 0;
         let chOffset = pos.ch;
         let lastLine = pos.line;
         const offsetPositions = [];
-        for (const lexeme of varLexemes) {
-            const line = pos.line + lexeme.position.from.line;
-            if (lastLine !== lexeme.position.from.line) {
-                chOffset = 0;
-                varCnt = 0;
-                lastLine = line;
+        console.log(tokens);
+        for (const token of tokens) {
+            if (token.content === '$') {
+                varCnt++;
+                continue;
             }
-            const ch = chOffset + lexeme.position.from.ch - varCnt;
-            varCnt += lexeme.content.length + 1;
-            const cursorPos = { pos: { line, ch }, order: parseInt(lexeme.content, 10) };
-            offsetPositions.push(cursorPos);
+            if (token.type === 'var') {
+                const line = pos.line + token.position.from.line;
+                if (lastLine !== line) { // newline
+                    chOffset = 0;
+                    varCnt = 0;
+                    lastLine = line;
+                }
+                const fromCh = chOffset + token.position.from.ch - varCnt;
+                const toCh = chOffset + token.position.to.ch - varCnt + 1;
+                const cursorPos = {
+                    pos: {
+                        from: { line, ch: fromCh },
+                        to: { line, ch: toCh }
+                    },
+                    order: parseInt(token.content.substr(1), 10)
+                };
+                offsetPositions.push(cursorPos);
+            }
         }
         offsetPositions.sort((a, b) => a.order - b.order);
+        const text = tokens.map(t => t.content).join('');
+        return { cursorSeq: offsetPositions, text };
     }
 
     public parseBody() {
@@ -69,7 +83,6 @@ export class Snippet {
                     case 2: // $
                         if (Snippet.varToken.test(template[end])) {
                             state = 3; // $$
-                            begin = end;
                             tokens.push({
                                 type: 'string', content: '$',
                                 position: {
@@ -77,11 +90,11 @@ export class Snippet {
                                     to: { line: i, ch: end }
                                 }
                             });
+                            begin = end;
                             state = 0; // accept
                         } else if (Snippet.numberToken.test(template[end])) {
                             state = 4; // $n
                             const str = template.substring(begin, end + 1);
-                            begin = end;
                             tokens.push({
                                 type: 'var', content: str,
                                 position: {
@@ -89,6 +102,7 @@ export class Snippet {
                                     to: { line: i, ch: end }
                                 }
                             });
+                            begin = end;
                             state = 0; // accept
                         } else {
                             throw Error('Expected "$" or number');
@@ -105,7 +119,6 @@ export class Snippet {
                             } else { // meet end of line
                                 str = template.substring(begin, end + 1);
                             }
-                            begin = end;
                             tokens.push({
                                 type: 'string', content: str,
                                 position: {
@@ -113,6 +126,7 @@ export class Snippet {
                                     to: { line: i, ch: end }
                                 }
                             });
+                            begin = end;
                             state = 0;
                         }
                         break;
