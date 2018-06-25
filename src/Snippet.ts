@@ -1,7 +1,7 @@
 // import * as CodeMirror from 'codemirror';
 
 interface ISnippetLexeme {
-    type: 'var' | 'string' | '$';
+    type: 'var' | 'string';
     content: string;
     position: {
         from: IPosition;
