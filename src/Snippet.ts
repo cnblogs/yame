@@ -22,6 +22,7 @@ export class Snippet {
     }
 
     public parseBody() {
+        // check if a state is accetable, only a acceptable state can stop parsing
         const isAcceptable = (state: number) => {
             return [0, 3, 4, 5].indexOf(state) >= 0;
         };
@@ -36,10 +37,10 @@ export class Snippet {
                     state = 1;
                 }
                 switch (state) {
-                    case 1: // begin
+                    case 1: // start parsing
                         if (Snippet.varToken.test(str)) {
                             state = 2; // $
-                            begin = end; // accept the leading $ and expect $ or number;
+                            begin = end; // accept the leading $ and expect '$' or number;
                             lexemes.push({
                                 type: '$', content: '$',
                                 position: {
