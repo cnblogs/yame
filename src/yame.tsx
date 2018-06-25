@@ -17,6 +17,7 @@ import * as yameFont from './styles/yame-font.less';
 import { ToggleHmd, TogglePreview, UpdateSrc, YameAppService, YameUIService } from './yame.service';
 import highlighter from './syntaxHighlighter';
 import { jumpInPreview, InitScroll } from './scroll';
+import registerKeymap from './keymap';
 
 window['CodeMirror'] = CodeMirror;
 
@@ -174,6 +175,7 @@ class Yame extends HTMLElement {
             // after modified styles, editor should be refreshed
             this.editor.refresh();
         }, 0);
+        registerKeymap(this.editor);
     }
 }
 
