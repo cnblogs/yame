@@ -4,6 +4,7 @@ const insertLink = (cm: CodeMirror.Editor) => {
     const cursor = cm.getCursor();
     const tokens = cm.getLineTokens(cursor.line);
     const link = new Snippet(['($2)[$1]$0']);
+    link.insertInto(cursor);
     console.log(tokens);
 };
 
