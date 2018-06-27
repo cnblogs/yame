@@ -1,6 +1,7 @@
 
 const { resolve, join } = require('path');
 const context = resolve(__dirname, '..');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = function (isProd) {
     const cfg = {
@@ -9,6 +10,7 @@ module.exports = function (isProd) {
         entry: {
             index: './index.ts',
         },
+        plugins: [],
         output: {
             path: join(context, 'dist'),
             filename: 'yame-[name].min.js'
@@ -72,5 +74,8 @@ module.exports = function (isProd) {
             extensions: ['.ts', '.tsx', '.js', '.less', '.css']
         }
     };
+    if (isProd) {
+        cfg.plugins.push(new MinifyPlugin());
+    }
     return cfg;
 }
