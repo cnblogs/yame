@@ -5,13 +5,10 @@ const highlighter = (str: string, lang: string) => {
     const CodeMirror = CM as any;
     const tempNode = document.createElement('div');
     const mode = CM.findModeByName(lang);
-    console.log(mode);
     if (!mode) {
         return str;
     }
-    console.log(CodeMirror.runMode);
-    CodeMirror.runMode(str, lang, tempNode);
-    console.log(tempNode.innerHTML);
+    CodeMirror.runMode(str, mode.mime, tempNode);
     return tempNode.innerHTML;
 };
 
