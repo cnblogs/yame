@@ -1,5 +1,3 @@
-// import * as CodeMirror from 'codemirror';
-
 interface ISnippetLexeme {
     type: 'var' | 'string';
     content: string;
@@ -51,8 +49,14 @@ export class Snippet {
                 offsetPositions.push(cursorPos);
             }
         }
-        offsetPositions.sort((a, b) => a.order - b.order);
+        offsetPositions.forEach(a => {
+            if (a.order === 0) { a.order = Infinity; }
+        });
+        offsetPositions.sort((a, b) => {
+            return a.order - b.order;
+        });
         const text = tokens.map(t => t.content).join('');
+        console.log(offsetPositions);
         return { cursorSeq: offsetPositions, text };
     }
 
@@ -151,3 +155,73 @@ export class Snippet {
     constructor(public body: string[], public prefix?: string) {
     }
 }
+
+
+/**
+ * insert snippet into editor, and bind related event listener
+ *
+ * @param {CodeMirror.Editor} cm
+ * @param {Snippet} snippet
+ */
+export const insertSnippet = (cm: CodeMirror.Editor, snippet: Snippet) => {
+    const cursor = cm.getCursor();
+    const result = snippet.insertInto(cursor);
+    cm.replaceRange(result.text, cursor);
+    // transfrom position to textmarker
+    const markers = result.cursorSeq.map(p => {
+        return cm.markText(p.pos.from, p.pos.to, {
+            className: 'yame-snippet-var',
+            inclusiveRight: true,
+            inclusiveLeft: true
+        });
+    });
+    // select first template var
+    const firstPostion = markers[0].find();
+    setTimeout(() => {
+        if (isFinite(result.cursorSeq[0].order) === false) {
+            // $0
+            cm.replaceRange('', firstPostion.from, firstPostion.to);
+            cm.setCursor(firstPostion.from);
+            markers[0].clear();
+        } else {
+            cm.setSelection(firstPostion.from, firstPostion.to);
+        }
+    }, 0);
+    let cnt = 0;
+    const tabMap = {
+        Tab: () => { // when tab pressed
+            const fromMarker = markers[cnt];
+            let toMarker = markers[cnt + 1];
+            if (!fromMarker.find()) {
+                cm.removeKeyMap(tabMap);
+                return;
+            }
+            if (toMarker && toMarker !== markers[markers.length - 1]) { // if it is not the last template var
+                // select the next template var
+                const nextPos = toMarker.find();
+                if (nextPos) {
+                    setTimeout(() => {
+                        cm.setSelection(nextPos.from, nextPos.to);
+                    }, 0);
+                }
+                cnt++;
+            } else { // if it is the last template var
+                // remove keymap and set cursor to it right side
+                if (toMarker === undefined) { // only one var
+                    toMarker = fromMarker;
+                }
+                cm.removeKeyMap(tabMap);
+                const pos = toMarker.find();
+                toMarker.clear();
+                setTimeout(() => {
+                    if (isFinite(result.cursorSeq[cnt]) === false) { // $0
+                        cm.replaceRange('', pos.from, pos.to);
+                    }
+                    cm.setCursor(pos.from);
+                }, 0);
+            }
+            fromMarker.clear();
+        }
+    };
+    cm.addKeyMap(tabMap);
+};
