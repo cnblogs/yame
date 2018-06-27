@@ -1,3 +1,5 @@
+import * as CodeMirror from 'codemirror';
+
 interface ISnippetLexeme {
     type: 'var' | 'string';
     content: string;
@@ -194,7 +196,7 @@ export const insertSnippet = (cm: CodeMirror.Editor, snippet: Snippet) => {
             let toMarker = markers[cnt + 1];
             if (!fromMarker.find()) {
                 cm.removeKeyMap(tabMap);
-                return;
+                return CodeMirror.Pass;
             }
             if (toMarker && toMarker !== markers[markers.length - 1]) { // if it is not the last template var
                 // select the next template var
