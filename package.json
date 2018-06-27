@@ -18,8 +18,7 @@
         "lodash-es": "^4.17.10",
         "markdown-it": "^8.4.1",
         "markdownlint-no-fs": "^0.10.3",
-        "rxjs": "^6.2.0",
-        "url-loader": "^1.0.1"
+        "rxjs": "^6.2.0"
     },
     "devDependencies": {
         "@types/chai": "^4.1.4",
@@ -33,6 +32,7 @@
         "babel-preset-env": "^1.7.0",
         "chai": "^4.1.2",
         "cross-env": "^5.2.0",
+        "url-loader": "^1.0.1",
         "css-loader": "^0.28.11",
         "exports-loader": "^0.7.0",
         "less": "^3.0.4",
