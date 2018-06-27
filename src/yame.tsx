@@ -39,6 +39,11 @@ class Yame extends HTMLElement {
     uiStore = new YameUIService(true);
     appStore = new YameAppService(false);
 
+    // public property
+    value: string;
+    rendered: string;
+    // public property end
+
     static checkPolyfill() {
         if (window.customElements && window.customElements.define.toString().indexOf('native') >= 0) {
             Yame.WithPolyfill = false;
@@ -95,16 +100,20 @@ class Yame extends HTMLElement {
         });
 
         // 自动更新预览
+        const jumpTo = jumpInPreview(this);
         this.appStore.model$.pipe(
             map(app => app.src),
-            filter(_ => this.uiStore.model.enablePreview === true),
             map(code => {
-                return md.render(code);
+                return [code, md.render(code)];
             })
-        ).subscribe((html) => {
-            this.ui.previewHost.innerHTML = html;
-            // 更新预览后可能需要更新预览的滚动位置
-            jumpInPreview(this)(this.uiStore.model.previewLine);
+        ).subscribe(([code, html]) => {
+            this.rendered = html;
+            this.value = code;
+            if (this.uiStore.model.enablePreview) {
+                this.ui.previewHost.innerHTML = html;
+                // 更新预览后可能需要更新预览的滚动位置
+                jumpTo(this.uiStore.model.previewLine);
+            }
         });
     }
 
