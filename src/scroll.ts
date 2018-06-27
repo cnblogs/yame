@@ -79,11 +79,11 @@ export const getDataLine = (el: Element) => {
 export const InitScroll = (yame: Yame) => {
     const $editorScroll = fromEvent(yame.editor, 'scroll').pipe(
         takeUntil(yame.uiStore.unSub),
-        filter(_ => this.uiStore.model.enablePreview === true),
+        filter(_ => yame.uiStore.model.enablePreview === true),
     );
     const $previewScroll = fromEvent(yame.ui.previewHost, 'scroll').pipe(
         takeUntil(yame.uiStore.unSub),
-        filter(_ => this.uiStore.model.enablePreview === true),
+        filter(_ => yame.uiStore.model.enablePreview === true),
     );
     $editorScroll.subscribe(() => {
         // 编辑器滚动时，获取显示在第一行的代码的行号
