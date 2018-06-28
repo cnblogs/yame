@@ -13,7 +13,7 @@
     "dependencies": {
         "codemirror": "^5.38.0",
         "elm-rx": "3.0.4",
-        "hypermd": "^0.3.4",
+        "hypermd": "^0.3.6",
         "jsx-dom": "^6.1.1",
         "lodash-es": "^4.17.10",
         "markdown-it": "^8.4.1",

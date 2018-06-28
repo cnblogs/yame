@@ -3,8 +3,33 @@ import 'codemirror/addon/lint/lint.js';
 import 'codemirror/addon/selection/active-line.js';
 
 import * as React from 'jsx-dom';
+// HyperMD
 import * as CodeMirror from 'codemirror';
-import * as HyperMD from 'hypermd';
+// import core fisrt
+import * as HyperMD from 'hypermd/core';
+// necessary modes to highlight
+import 'codemirror/mode/htmlmixed/htmlmixed';
+import 'codemirror/mode/stex/stex';
+import 'codemirror/mode/yaml/yaml';
+// hypermd mode
+import 'hypermd/mode/hypermd';
+// hypermd keymap
+import 'hypermd/keymap/hypermd';
+// hypermd addon
+import 'hypermd/addon/hide-token';
+import 'hypermd/addon/cursor-debounce';
+import 'hypermd/addon/fold';
+import 'hypermd/addon/fold-math';
+import 'hypermd/addon/fold-html';
+import 'hypermd/addon/read-link';
+import 'hypermd/addon/click';
+import 'hypermd/addon/hover';
+import 'hypermd/addon/paste';
+import 'hypermd/addon/insert-file';
+import 'hypermd/addon/mode-loader';
+import 'hypermd/addon/table-align';
+
+
 import * as mdit from 'markdown-it';
 import { fromEvent } from 'rxjs';
 import { debounceTime, filter, map } from 'rxjs/operators';
@@ -173,8 +198,10 @@ class Yame extends HTMLElement {
             gutters: ['CodeMirror-lint-markers'],
             hmdModeLoader: true,
             styleActiveLine: true,
-            lineWrapping: true
+            lineWrapping: true,
+            hmdInsertFile: true
         });
+        window['hmd'] = this.editor;
         this.applyRx();
         this.subscribe();
         // insert CodeMirror lint css to document
