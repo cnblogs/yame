@@ -56,6 +56,7 @@ export const jumpInPreview = (yame: Yame) => (line: number) => {
     const scrollTarget = beginBlock.offsetTop + blockOffset - yame.ui.previewHost.offsetTop;
     // console.log({ line, beginNumber, endNumber, beginBlock });
     // 最后滚动过去
+    // related Edge issue: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/15534521/
     yame.ui.previewHost.scrollTop = scrollTarget;
     // yame.ui.previewHost.scroll(0, scrollTarget);
 };
