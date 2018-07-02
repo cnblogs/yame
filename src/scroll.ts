@@ -1,9 +1,9 @@
 import { fromEvent } from 'rxjs';
-import { takeUntil, map, distinctUntilChanged, filter } from 'rxjs/operators';
-import { LineScrolled } from './yame.service';
-import Yame from './yame';
+import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 
-type CmChange = [CodeMirror.Editor, CodeMirror.EditorChange];
+import Yame from './yame';
+import { LineScrolled } from './yame.service';
+
 /**
 * Find the first element that is visiable in container
 *
@@ -56,7 +56,8 @@ export const jumpInPreview = (yame: Yame) => (line: number) => {
     const scrollTarget = beginBlock.offsetTop + blockOffset - yame.ui.previewHost.offsetTop;
     // console.log({ line, beginNumber, endNumber, beginBlock });
     // 最后滚动过去
-    yame.ui.previewHost.scroll(0, scrollTarget);
+    yame.ui.previewHost.scrollTop = scrollTarget;
+    // yame.ui.previewHost.scroll(0, scrollTarget);
 };
 
 export const getDataLine = (el: Element) => {
